@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . | quote }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "fullname" . | quote }}
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+data:
+  unbound.conf: |-
+    server:
+        verbosity: {{ .Values.verbosity }}
+        interface: {{ .Values.bindTo }}
+
+        access-control: {{ .Values.clusterIpv4Cidr }} allow
+        access-control: 127.0.0.1/32 allow
+
+        so-reuseport: yes
+
+    forward-zone:
+        name: {{ .Values.forwardZone | quote }}
+        {{- range .Values.forwardHosts }}
+        forward-host {{ . }}
+        {{- end }}
+
+    # fall back to public dns
+    forward-zone:
+        name: "."
+        {{- range .Values.upstreamHosts }}
+        forward-host {{ . }}
+        {{- end }}

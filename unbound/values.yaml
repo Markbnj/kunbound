@@ -1,0 +1,13 @@
+replicas: 2
+memRequest: "32Mi"
+memLimit: "64Mi"
+cpuRequest: "100m"
+verbosity: 1
+bindTo: "0.0.0.0"
+forwardZone: "fake.net"
+forwardHosts:
+  - "fake1.host.net"
+  - "fake2.host.net"
+upstreamHosts:
+  - "8.8.8.8"
+  - "8.8.4.4"
