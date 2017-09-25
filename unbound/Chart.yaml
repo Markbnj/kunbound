@@ -1,0 +1,8 @@
+apiVersion: v1
+description: Run unbound in kubernetes
+name: kunbound
+version: 0.0.1
+sources:
+- https://github.com/Markbnj/kunbound
+maintainers:
+- name: Mark Betz <betz.mark@gmail.com>
