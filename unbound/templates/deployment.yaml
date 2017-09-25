@@ -25,7 +25,7 @@ spec:
       containers:
       - name: "unbound"
         image: {{ .Values.image | quote }}
-        imagePullPolicy: "IfNewer"
+        imagePullPolicy: "IfNotPresent"
         resources:
           requests:
             memory: {{ .Values.memRequest | quote }}
@@ -44,7 +44,7 @@ spec:
           exec:
             command:
               - "nslookup"
-              - "google.com"
+              - "health.check.unbound"
               - "127.0.0.1"
           initialDelaySeconds: 10
           timeoutSeconds: 2
@@ -52,7 +52,7 @@ spec:
           exec:
             command:
               - "nslookup"
-              - "google.com"
+              - "health.check.unbound"
               - "127.0.0.1"
           initialDelaySeconds: 10
           timeoutSeconds: 2
