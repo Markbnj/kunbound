@@ -1,4 +1,4 @@
-default: test
+default: help
 
 IMAGES_REPO ?=
 IMAGE_NAME ?= kunbound
@@ -42,3 +42,23 @@ release: push
 	cd unbound && \
 	helm upgrade --install $(HELM_RELEASE) . --kube-context $(KUBE_CONTEXT) --set image=$(IMAGES_REPO)/$(IMAGE_NAME):$(IMAGE_TAG) $(DRY_RUN); \
 	cd ..
+
+.PHONY: help
+help:
+	@echo "Build the kunbound image and install the helm chart"
+	@echo ""
+	@echo "Examples:"
+	@echo "  Build the kunbound container locally"
+	@echo "  $$ make image"
+	@echo ""
+	@echo "  Build and test the kunbound container locally"
+	@echo "  $$ make test"
+	@echo ""
+	@echo "  Build the container, test it and push it to myrepo/kunbound:latest"
+	@echo "  $$ make push IMAGES_REPO=myrepo"
+	@echo ""
+	@echo "  Build the container, test it, push it, and dry-run the helm chart"
+	@echo "  $$ make release IMAGES_REPO=myrepo"
+	@echo ""
+	@echo "  Build the container, test it, push it, and install the helm chart"
+	@echo "  $$ make apply release IMAGES_REPO=myrepo"
