@@ -10,6 +10,7 @@ metadata:
 data:
   unbound.conf: |-
     server:
+        num-threads: {{ .Values.numThreads }}
         directory: "/etc/unbound"
         interface: {{ .Values.bindTo }}
         access-control: {{ .Values.clusterIpv4Cidr }} allow
