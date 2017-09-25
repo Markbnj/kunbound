@@ -1,24 +1,24 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . | quote }}
+  name: {{ template "fullname" . }}
   labels:
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    app: {{ template "fullname" . | quote }}
-    heritage: {{ .Release.Service | quote }}
-    release: {{ .Release.Name | quote }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ template "fullname" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{ template "fullname" . | quote }}
+      app: {{ template "fullname" . }}
   template:
     metadata:
       labels:
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        app: {{ template "fullname" . | quote }}
-        heritage: {{ .Release.Service | quote }}
-        release: {{ .Release.Name | quote }}
+        chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+        app: {{ template "fullname" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
@@ -59,4 +59,4 @@ spec:
       volumes:
       - name: "unbound-conf"
         configMap:
-          name: {{ template "fullname" . | quote }}
+          name: {{ template "fullname" . }}
