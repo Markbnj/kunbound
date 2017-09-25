@@ -24,8 +24,12 @@ data:
     {{- range .Values.forwardZones }}
 
     forward-zone:
-        name: {{ .name | quote }}
-        {{- range .hosts }}
+        name: {{ .name }}
+        forward-ssl-upstream: {{ .forwardSsl | default "no" }}
+        {{- range .forwardHosts }}
         forward-host {{ . }}
+        {{- end }}
+        {{- range .forwardIps }}
+        forward-addr {{ . }}
         {{- end }}
     {{- end }}
