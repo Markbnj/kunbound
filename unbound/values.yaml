@@ -5,7 +5,12 @@ cpuRequest: "100m"
 verbosity: 1
 bindTo: "0.0.0.0"
 clusterIpv4Cidr: "10.0.0.0/14"
-forwardZone: "fake.net"
-forwardHosts:
+forwardZones:
+- name: "fake.net"
+  hosts:
   - "fake1.host.net"
   - "fake2.host.net"
+- name: "stillfake.net"
+  hosts:
+  - "stillfake1.host.net"
+  - "stillfake2.host.net"

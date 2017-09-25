@@ -18,8 +18,11 @@ data:
 
         so-reuseport: yes
 
+    {{- range .Values.forwardZones }}
+
     forward-zone:
-        name: {{ .Values.forwardZone | quote }}
-        {{- range .Values.forwardHosts }}
+        name: {{ .name | quote }}
+        {{- range .hosts }}
         forward-host {{ . }}
         {{- end }}
+    {{- end }}
