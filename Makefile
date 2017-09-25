@@ -28,4 +28,5 @@ push: test
 .PHONY: release
 release: push
 	cd unbound && \
-	helm upgrade --install $(HELM_RELEASE) . --kube-context $(KUBE_CONTEXT) --set image=$(IMAGES_REPO)/$(IMAGE_NAME):$(IMAGE_TAG) --debug --dry-run
+	helm upgrade --install $(HELM_RELEASE) . --kube-context $(KUBE_CONTEXT) --set image=$(IMAGES_REPO)/$(IMAGE_NAME):$(IMAGE_TAG) --debug --dry-run; \
+	cd ..
