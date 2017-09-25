@@ -8,7 +8,6 @@ numThreads: 1
 clusterIpv4Cidr: "10.0.0.0/14"
 forwardZones:
 - name: "fake.net"
-  forwardSsl: "yes"
   forwardHosts:
   - "fake1.host.net"
   - "fake2.host.net"
