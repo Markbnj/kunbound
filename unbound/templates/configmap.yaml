@@ -10,13 +10,16 @@ metadata:
 data:
   unbound.conf: |-
     server:
-        verbosity: {{ .Values.verbosity }}
+        directory: "/etc/unbound"
         interface: {{ .Values.bindTo }}
-
         access-control: {{ .Values.clusterIpv4Cidr }} allow
         access-control: 127.0.0.1/32 allow
-
         so-reuseport: yes
+        do-daemonize: no
+        logfile: ""
+        use-syslog: no
+        auto-trust-anchor-file: "/var/lib/unbound/root.key"
+        verbosity: {{ .Values.verbosity }}
 
     {{- range .Values.forwardZones }}
 
