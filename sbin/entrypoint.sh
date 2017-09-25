@@ -8,4 +8,4 @@ mkdir -p ${ROOT_TRUST_DIR}
 chown unbound:unbound ${ROOT_TRUST_DIR}
 unbound-anchor -a $ROOT_TRUST_ANCHOR_FILE -v
 chown unbound:unbound $ROOT_TRUST_ANCHOR_FILE
-exec unbound -d -v -c /etc/unbound/unbound.conf
+exec unbound -p -c /etc/unbound/unbound.conf
