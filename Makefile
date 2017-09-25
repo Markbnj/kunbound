@@ -12,6 +12,7 @@ NO_CACHE :=
 .PHONY: no-cache
 no-cache:
 	$(eval NO_CACHE := --no-cache)
+	@:
 
 .PHONY: image
 image:
@@ -34,6 +35,7 @@ push: test
 .PHONY: apply
 apply:
 	$(eval DRY_RUN := )
+	@:
 
 .PHONY: release
 release: push
