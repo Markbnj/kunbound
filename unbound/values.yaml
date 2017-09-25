@@ -9,6 +9,3 @@ forwardZone: "fake.net"
 forwardHosts:
   - "fake1.host.net"
   - "fake2.host.net"
-upstreamHosts:
-  - "8.8.8.8"
-  - "8.8.4.4"

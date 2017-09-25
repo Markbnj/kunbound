@@ -23,10 +23,3 @@ data:
         {{- range .Values.forwardHosts }}
         forward-host {{ . }}
         {{- end }}
-
-    # fall back to public dns
-    forward-zone:
-        name: "."
-        {{- range .Values.upstreamHosts }}
-        forward-host {{ . }}
-        {{- end }}
