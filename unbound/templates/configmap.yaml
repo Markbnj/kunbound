@@ -22,15 +22,18 @@ data:
         auto-trust-anchor-file: "/var/lib/unbound/root.key"
         verbosity: {{ .Values.verbosity }}
 
+        # record used for the liveness/readiness probes
+        local-data: "health.check.unbound A 10.10.10.10"
+        local-data-ptr: "10.10.10.10 health.check.unbound"
+
     {{- range .Values.forwardZones }}
 
     forward-zone:
         name: {{ .name }}
-        forward-ssl-upstream: {{ .forwardSsl | default "no" }}
         {{- range .forwardHosts }}
-        forward-host {{ . }}
+        forward-host: {{ . }}
         {{- end }}
         {{- range .forwardIps }}
-        forward-addr {{ . }}
+        forward-addr: {{ . }}
         {{- end }}
     {{- end }}
