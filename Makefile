@@ -46,19 +46,19 @@ release: push
 .PHONY: help
 help:
 	@echo "Build the kunbound image and install the helm chart"
-	@echo ""
+	@echo
 	@echo "Examples:"
 	@echo "  Build the kunbound container locally"
 	@echo "  $$ make image"
-	@echo ""
+	@echo
 	@echo "  Build and test the kunbound container locally"
 	@echo "  $$ make test"
-	@echo ""
+	@echo
 	@echo "  Build the container, test it and push it to myrepo/kunbound:latest"
 	@echo "  $$ make push IMAGES_REPO=myrepo"
-	@echo ""
+	@echo
 	@echo "  Build the container, test it, push it, and dry-run the helm chart"
 	@echo "  $$ make release IMAGES_REPO=myrepo"
-	@echo ""
+	@echo
 	@echo "  Build the container, test it, push it, and install the helm chart"
 	@echo "  $$ make apply release IMAGES_REPO=myrepo"
