@@ -6,18 +6,3 @@ verbosity: 1
 bindTo: "0.0.0.0"
 numThreads: 1
 clusterIpv4Cidr: "10.0.0.0/14"
-forwardZones:
-- name: "fake.net"
-  forwardHosts:
-  - "fake1.host.net"
-  - "fake2.host.net"
-  forwardIps:
-  - "10.10.10.10"
-  - "10.11.10.10"
-- name: "stillfake.net"
-  forwardHosts:
-  - "stillfake1.host.net"
-  - "stillfake2.host.net"
-  forwardIps:
-  - "10.10.10.10"
-  - "10.11.10.10"

@@ -1,0 +1,9 @@
+forwardZones:
+- name: "fake.net"
+  forwardHosts:
+  - "fake1.host.net"
+  - "fake2.host.net"
+- name: "stillfake.net"
+  forwardIps:
+  - "10.10.10.10"
+  - "10.11.10.10"
