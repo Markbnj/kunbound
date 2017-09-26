@@ -39,7 +39,7 @@ apply:
 
 .PHONY: release
 release: push
-	cd unbound && \
+	cd kunbound && \
 	helm upgrade --install $(HELM_RELEASE) . \
 		--kube-context $(KUBE_CONTEXT) \
 		--set image=$(IMAGES_REPO)/$(IMAGE_NAME):$(IMAGE_TAG) \
