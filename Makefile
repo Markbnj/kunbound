@@ -8,6 +8,8 @@ HELM_RELEASE ?= kunbound
 KUBE_CONTEXT ?= $(shell kubectl config current-context)
 DRY_RUN := --debug --dry-run
 NO_CACHE :=
+VALUES ?=
+VALUES_ARG :=
 
 .PHONY: no-cache
 no-cache:
@@ -39,11 +41,14 @@ apply:
 
 .PHONY: release
 release: push
+	@if [ ! -z "$(VALUES)" ]; then \
+		VALUES_ARG='--values=$(VALUES)'; \
+	fi; \
 	cd kunbound && \
 	helm upgrade --install $(HELM_RELEASE) . \
 		--kube-context $(KUBE_CONTEXT) \
 		--set image=$(IMAGES_REPO)/$(IMAGE_NAME):$(IMAGE_TAG) \
-		--values=zones.yaml $(DRY_RUN); \
+		$${VALUES_ARG} $(DRY_RUN); \
 	cd ..
 
 .PHONY: help
@@ -54,6 +59,9 @@ help:
 	@echo "  Build the kunbound container locally"
 	@echo "  $$ make image"
 	@echo
+	@echo "  Build the kunbound container locally and break the cache"
+	@echo "  $$ make no-cache image"
+	@echo
 	@echo "  Build and test the kunbound container locally"
 	@echo "  $$ make test"
 	@echo
@@ -61,7 +69,7 @@ help:
 	@echo "  $$ make push IMAGES_REPO=myrepo"
 	@echo
 	@echo "  Build the container, test it, push it, and dry-run the helm chart"
-	@echo "  $$ make release IMAGES_REPO=myrepo"
+	@echo "  $$ make release IMAGES_REPO=myrepo VALUES=myvalues.yaml"
 	@echo
 	@echo "  Build the container, test it, push it, and install the helm chart"
-	@echo "  $$ make apply release IMAGES_REPO=myrepo"
+	@echo "  $$ make apply release IMAGES_REPO=myrepo VALUES=myvalues.yaml"
