@@ -1,3 +1,6 @@
+# this is a sample helm values file showing the
+# structure for adding forwarding zones to the
+# unbound conf file.
 forwardZones:
 - name: "fake.net"
   forwardHosts:
