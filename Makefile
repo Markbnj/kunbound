@@ -10,6 +10,7 @@ DRY_RUN := --debug --dry-run
 NO_CACHE :=
 VALUES ?=
 VALUES_ARG :=
+CLUSTER_IP4_CIDR ?=
 
 .PHONY: no-cache
 no-cache:
@@ -51,6 +52,7 @@ release:
 	helm upgrade --install $(HELM_RELEASE) . \
 		--kube-context $(KUBE_CONTEXT) \
 		--set image=$(IMAGES_REPO)/$(IMAGE_NAME):$(IMAGE_TAG) \
+		--set clusterIpv4Cidr=$(CLUSTER_IP4_CIDR) \
 		$${VALUES_ARG} $(DRY_RUN); \
 	cd ..
 
@@ -65,23 +67,24 @@ help:
 	@echo
 	@echo "The following TARGETS are supportedL"
 	@echo
-	@echo "image    : build the docker image locally"
-	@echo "test     : test the docker image"
-	@echo "no-cache : disable docker layer caching"
-	@echo "build    : runs image + test"
-	@echo "rebuild  : runs no-cache + image + test"
-	@echo "push     : push the image to a repo"
-	@echo "release  : install/upgrade the chart (dry-run)"
-	@echo "apply    : use before release to apply changes"
-	@echo "all      : runs build + push + release"
-	@echo "help     : display this help"
+	@echo "image: build the docker image locally"
+	@echo "test: test the docker image"
+	@echo "no-cache: disable docker layer caching"
+	@echo "build: runs image + test"
+	@echo "rebuild: runs no-cache + image + test"
+	@echo "push: push the image to a repo"
+	@echo "release: install/upgrade the chart (dry-run)"
+	@echo "apply: use before release to apply changes"
+	@echo "all: runs build + push + release"
+	@echo "help: display this help"
 	@echo
 	@echo "The following VARS are supportedL"
 	@echo
-	@echo "IMAGES_REPO  : repository name to push image to"
-	@echo "IMAGE_NAME   : override default image name"
-	@echo "IMAGE_TAG    : override default image tag"
-	@echo "TEST_HOST    : override the default DNS test host"
-	@echo "HELM_RELEASE : override the default release name"
-	@echo "KUBE_CONTEXT : override the current kube context"
-	@echo "VALUES       : specify a values file to include"
+	@echo "IMAGES_REPO: repository name to push image to"
+	@echo "IMAGE_NAME: override default image name"
+	@echo "IMAGE_TAG: override default image tag"
+	@echo "TEST_HOST: override the default DNS test host"
+	@echo "HELM_RELEASE: override the default release name"
+	@echo "KUBE_CONTEXT: override the current kube context"
+	@echo "VALUES: specify a values file to include"
+	@echo "CLUSTER_IP4_CIDR: address range to allow"
