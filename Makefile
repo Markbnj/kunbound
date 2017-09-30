@@ -1,6 +1,6 @@
 default: help
 
-IMAGES_REPO ?=
+IMAGES_REPO ?= markbnj
 IMAGE_NAME ?= kunbound
 IMAGE_TAG ?= latest
 TEST_HOST ?= google.com
@@ -21,16 +21,19 @@ image:
 	docker build $(NO_CACHE) --rm=true --force-rm=true --tag=$(IMAGE_NAME):$(IMAGE_TAG) .
 
 .PHONY: test
-test: image
+test:
 	docker run -d --name $(IMAGE_NAME)-test -p 8053:53/udp $(IMAGE_NAME):$(IMAGE_TAG)
 	dig @localhost -p 8053 $(TEST_HOST)
 	docker rm -f $(IMAGE_NAME)-test
 
+.PHONY: build
+build: image test
+
+.PHONY: rebuild
+rebuild: no-cache image test
+
 .PHONY: push
-push: test
-	@if [ -z "$${IMAGES_REPO}" ]; then \
-		echo "Error: set IMAGES_REPO to the docker hub repository to push to" && exit 1; \
-	fi
+push:
 	docker tag $(IMAGE_NAME):$(IMAGE_TAG) $(IMAGES_REPO)/$(IMAGE_NAME):$(IMAGE_TAG)
 	docker push $(IMAGES_REPO)/$(IMAGE_NAME):$(IMAGE_TAG)
 
@@ -40,7 +43,7 @@ apply:
 	@:
 
 .PHONY: release
-release: push
+release:
 	@if [ ! -z "$(VALUES)" ]; then \
 		VALUES_ARG='--values=$(VALUES)'; \
 	fi; \
@@ -51,25 +54,34 @@ release: push
 		$${VALUES_ARG} $(DRY_RUN); \
 	cd ..
 
+.PHONY: all
+all: build push release
+
 .PHONY: help
 help:
 	@echo "Build the kunbound image and install the helm chart"
 	@echo
-	@echo "Examples:"
-	@echo "  Build the kunbound container locally"
-	@echo "  $$ make image"
+	@echo "Usage: make TARGETS VARS"
 	@echo
-	@echo "  Build the kunbound container locally and break the cache"
-	@echo "  $$ make no-cache image"
+	@echo "The following TARGETS are supportedL"
 	@echo
-	@echo "  Build and test the kunbound container locally"
-	@echo "  $$ make test"
+	@echo "image    : build the docker image locally"
+	@echo "test     : test the docker image"
+	@echo "no-cache : disable docker layer caching"
+	@echo "build    : runs image + test"
+	@echo "rebuild  : runs no-cache + image + test"
+	@echo "push     : push the image to a repo"
+	@echo "release  : install/upgrade the chart (dry-run)"
+	@echo "apply    : use before release to apply changes"
+	@echo "all      : runs build + push + release"
+	@echo "help     : display this help"
 	@echo
-	@echo "  Build the container, test it and push it to myrepo/kunbound:latest"
-	@echo "  $$ make push IMAGES_REPO=myrepo"
+	@echo "The following VARS are supportedL"
 	@echo
-	@echo "  Build the container, test it, push it, and dry-run the helm chart"
-	@echo "  $$ make release IMAGES_REPO=myrepo VALUES=myvalues.yaml"
-	@echo
-	@echo "  Build the container, test it, push it, and install the helm chart"
-	@echo "  $$ make apply release IMAGES_REPO=myrepo VALUES=myvalues.yaml"
+	@echo "IMAGES_REPO  : repository name to push image to"
+	@echo "IMAGE_NAME   : override default image name"
+	@echo "IMAGE_TAG    : override default image tag"
+	@echo "TEST_HOST    : override the default DNS test host"
+	@echo "HELM_RELEASE : override the default release name"
+	@echo "KUBE_CONTEXT : override the current kube context"
+	@echo "VALUES       : specify a values file to include"
