@@ -13,7 +13,7 @@ In addition you'll obviously need a running kubernetes cluster. The yaml and scr
 ## Repository structure
 
 ```
-kubound/
+kunbound/
   etc/unbound/  - contains the default unbound.conf file for image testing
   kunbound/     - the root directory of the helm chart
   sbin/         - contains the startup script for unbound
