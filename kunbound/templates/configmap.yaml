@@ -12,8 +12,12 @@ data:
     server:
         num-threads: {{ .Values.numThreads }}
         directory: "/etc/unbound"
-        interface: {{ .Values.bindTo }}
+        {{- if .Values.clusterIpv4Cidr }}
+        interface: 0.0.0.0
         access-control: {{ .Values.clusterIpv4Cidr }} allow
+        {{- else }}
+        interface: 127.0.0.1
+        {{- end }}
         access-control: 127.0.0.1/32 allow
         so-reuseport: yes
         do-daemonize: no
