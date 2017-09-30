@@ -1,6 +1,6 @@
 # kunbound
 
-This repository demonstrates a kubernetes installation of the unbound DNSSEC compliant name resolver using docker, kubectl and helm. The repo contains a dockerfile, helm chart and makefile to assist with building the image (if you don't want to just pull it from my hub account) and installing the helm chart into your cluster.
+This repository demonstrates a kubernetes installation of the [unbound](http://www.unbound.net) DNSSEC compliant name resolver using docker, kubectl and helm. The repo contains a dockerfile, helm chart and makefile to assist with building the image (if you don't want to just pull it from my hub account) and installing the helm chart into your cluster.
 
 ## Requirements
 
