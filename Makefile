@@ -78,7 +78,7 @@ help:
 	@echo "all: runs build + push + release"
 	@echo "help: display this help"
 	@echo
-	@echo "The following VARS are supportedL"
+	@echo "The following VARS are supported"
 	@echo
 	@echo "IMAGES_REPO: repository name to push image to"
 	@echo "IMAGE_NAME: override default image name"
