@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kunbound
+  labels:
+    app: kunbound
+spec:
+  selector:
+    app: kunbound
+  ports:
+    - name: dns
+      protocol: UDP
+      port: 53
+      targetPort: dns

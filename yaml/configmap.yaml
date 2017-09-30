@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kunbound
+  labels:
+    app: kunbound
+data:
+  unbound.conf: |-
+    server:
+        num-threads: 1
+        directory: "/etc/unbound"
+        interface: 127.0.0.1
+        access-control: 127.0.0.1/32 allow
+        so-reuseport: yes
+        do-daemonize: no
+        logfile: ""
+        use-syslog: no
+        auto-trust-anchor-file: "/var/lib/unbound/root.key"
+        verbosity: 1
+
+        # record used for the liveness/readiness probes
+        local-data: "health.check.unbound A 10.10.10.10"
+        local-data-ptr: "10.10.10.10 health.check.unbound"
+
+    forward-zone:
+        name:
+        forward-host:
+        forward-addr:

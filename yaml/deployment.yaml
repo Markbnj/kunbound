@@ -1,0 +1,54 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kunbound
+  labels:
+    app: kunbound
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kunbound
+  template:
+    metadata:
+      labels:
+        app: kunbound
+    spec:
+      containers:
+      - name: "unbound"
+        image: markbnj/kunbound:latest
+        imagePullPolicy: "IfNotPresent"
+        resources:
+          requests:
+            memory: 32Mi
+            cpu: 100m
+          limits:
+            memory: 64Mi
+        ports:
+        - name: "dns"
+          containerPort: 53
+          protocol: "UDP"
+        volumeMounts:
+        - name: "unbound-conf"
+          mountPath: "/etc/unbound/"
+          readOnly: true
+        livenessProbe:
+          exec:
+            command:
+              - "nslookup"
+              - "health.check.unbound"
+              - "127.0.0.1"
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+        readinessProbe:
+          exec:
+            command:
+              - "nslookup"
+              - "health.check.unbound"
+              - "127.0.0.1"
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+      volumes:
+      - name: "unbound-conf"
+        configMap:
+          name: kunbound
